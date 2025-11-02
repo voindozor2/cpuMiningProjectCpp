@@ -2,6 +2,7 @@
 // Created by Boris on 02.11.2025.
 //
 #include <string>
+#include "../abstractions/serializedToString.h"
 
 class bitcoinAdapter {
 private:
@@ -13,5 +14,5 @@ public:
     bitcoinAdapter();
     bitcoinAdapter(std::string host,std::string port,std::string user,std::string password);
     ~bitcoinAdapter() = default;
-    std::string send(std::string contentType,std::string body);
+    std::string send(SerializedToString* request);
 };

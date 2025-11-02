@@ -4,11 +4,18 @@ set(CMAKE_TOOLCHAIN_FILE "C:/Users/Boris.DESKTOP-L651092/CLionProjects/vcpkg/scr
 project(cpuMiningProject)
 
 set(CMAKE_CXX_STANDARD 26)
-add_executable(cpuMiningProject main.cpp
-        src/adapters/bitcoinAdapter.cpp
-        src/adapters/bitcoinAdapter.h
+add_executable(cpuMiningProject 
+    main.cpp
+    src/abstractions/serializedToString.h
+    src/adapters/bitcoinAdapter.cpp
+    src/adapters/requests/blockCount/BlockCountRequest.cpp
+    src/adapters/requests/miningInfo/MiningInfoRequest.cpp
+    src/adapters/requests/blockTemplate/BlockTemplateRequest.cpp
+    src/adapters/requests/submitBlock/SubmitBlockRequest.cpp
+    src/adapters/response/blockCount/blockCountResponse.cpp
+    src/adapters/response/miningInfo/miningInfoResponse.cpp
+    src/adapters/response/submitBlock/submitBlockResponse.cpp
 )
-
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

@@ -5,6 +5,8 @@
 #include "bitcoinAdapter.h"
 #include <string>
 #include <cpr/cpr.h>
+#include "../abstractions/serializedToString.h"
+#include <iostream>
 
 bitcoinAdapter::bitcoinAdapter()
 {
@@ -22,12 +24,13 @@ bitcoinAdapter::bitcoinAdapter(std::string host,std::string port,std::string use
     this->password_ = password;
 }
 
-std::string bitcoinAdapter::send(std::string contentType,std::string body)
+std::string bitcoinAdapter::send(SerializedToString* request)
 {
+	std::cout << request->toString() << std::endl;
     auto response = cpr::Post(
         cpr::Url{"http://"+host_+ ":" + port_},
         cpr::Authentication{user_, password_,cpr::AuthMode::BASIC},
-        cpr::Body{body},
-        cpr::Header{{"content-type", contentType}});
+        cpr::Body{request->toString()},
+        cpr::Header{{"content-type", "text/plain"}});
     return response.text;
 }
