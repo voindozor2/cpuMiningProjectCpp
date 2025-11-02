@@ -1,0 +1,16 @@
+//
+// Created by Boris on 02.11.2025.
+//
+
+#ifndef CPUMININGPROJECT_BITCOINADAPTER_H
+#define CPUMININGPROJECT_BITCOINADAPTER_H
+
+
+
+class bitcoinAdapter {
+
+};
+
+
+
+#endif //CPUMININGPROJECT_BITCOINADAPTER_H

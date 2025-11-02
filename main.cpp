@@ -1,18 +1,76 @@
 #include <iostream>
-#include <string>
-#include <vector>
+#include <cpr/cpr.h>
+#include <json/json.h>
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
+struct BlockchainInfo {
+    std::string chain;
+    int blocks;
+    int headers;
+    std::string bestblockhash;
+    double difficulty;
+};
 
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
+struct RpcRequest {
+    std::string jsonrpc;
+    std::string id;
+    std::string method;
+    Json::Value params; // params может быть массивом или объектом
+};
+
+std::string to_json(const RpcRequest& req) {
+    Json::Value j;
+    j["jsonrpc"] = req.jsonrpc;
+    j["id"] = req.id;
+    j["method"] = req.method;
+    j["params"] = req.params;
+
+    Json::StreamWriterBuilder writer;
+    return Json::writeString(writer, j);
+}
+
+BlockchainInfo parse_blockchaininfo(const std::string& json_text) {
+    BlockchainInfo info;
+    Json::Value root;
+    Json::CharReaderBuilder builder;
+    std::string errs;
+    std::istringstream iss(json_text);
+    if (!Json::parseFromStream(builder, iss, &root, &errs)) {
+        throw std::runtime_error("Failed to parse JSON: " + errs);
     }
 
-    return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+    const auto& result = root["result"];
+    info.chain = result["chain"].asString();
+    info.blocks = result["blocks"].asInt();
+    info.headers = result["headers"].asInt();
+    info.bestblockhash = result["bestblockhash"].asString();
+    info.difficulty = result["difficulty"].asDouble();
+    return info;
 }
+
+int main() {
+    RpcRequest req;
+    req.jsonrpc = "1.0";
+    req.id = "curltext";
+    req.method = "getblockchaininfo";
+    req.params = Json::Value(Json::arrayValue); // пустой массив
+
+    std::string json_body = to_json(req);
+
+    std::cout << json_body << std::endl;
+
+    auto response = cpr::Post(
+        cpr::Url{"http://127.0.0.1:18443"},
+        cpr::Authentication{"bitcoinrpc", "MyStrongTestPassword123",cpr::AuthMode::BASIC},
+        //cpr::Body{R"({"jsonrpc":"1.0","id":"curltext","method":"getblockchaininfo","params":[]})"},
+        cpr::Body{json_body},
+        cpr::Header{{"content-type", "text/plain"}});
+
+    
+    BlockchainInfo info = parse_blockchaininfo(response.text);
+    std::cout << info.chain << " | blocks: " << info.blocks << std::endl;
+
+    //std::cout << response.text << std::endl;
+    return 0;
+}
+
+
