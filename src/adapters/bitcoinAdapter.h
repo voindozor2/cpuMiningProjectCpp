@@ -3,6 +3,9 @@
 //
 #include <string>
 #include "../abstractions/serializedToString.h"
+#include "response/blockCount/blockCountResponse.h"
+#include "response/miningInfo/miningInfoResponse.h"
+#include "response/submitBlock/submitBlockResponse.h"
 
 class bitcoinAdapter {
 private:
@@ -15,4 +18,7 @@ public:
     bitcoinAdapter(std::string host,std::string port,std::string user,std::string password);
     ~bitcoinAdapter() = default;
     std::string send(SerializedToString* request);
+    BlockCountResponse getBlockCount();
+	MiningInfoResponse getMiningInfo();
+	SubmitBlockResponse submitBlock(const std::string blockData);
 };

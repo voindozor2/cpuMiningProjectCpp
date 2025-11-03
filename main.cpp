@@ -62,25 +62,23 @@ int main() {
     BlockCountRequest req;
     BlockTemplateRequest req2;
     MiningInfoRequest req3;
-    SubmitBlockRequest req4("00000020b1bcc6c8ca8aca6938ccbf75ecfb98126dabb724e4016704e56d4285f324dd4f5ad9fb1ac33413b4fe40a6d85112b37df85a5c0b4060901485b55612dd104e97c5870769ffff7f200400000001020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff03016600ffffffff0200f2052a010000001600144fa44aa78a68ceb98e8b0e89f6d521bfcbc2483c0000000000000000266a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf90120000000000000000000000000000000000000000000000000000000000000000000000000");
+    std::string blockData = "00000020b1bcc6c8ca8aca6938ccbf75ecfb98126dabb724e4016704e56d4285f324dd4f5ad9fb1ac33413b4fe40a6d85112b37df85a5c0b4060901485b55612dd104e97c5870769ffff7f200400000001020000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff03016600ffffffff0200f2052a010000001600144fa44aa78a68ceb98e8b0e89f6d521bfcbc2483c0000000000000000266a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf90120000000000000000000000000000000000000000000000000000000000000000000000000";
+
     
-    std::cout << "BlockCountRequest" << std::endl;
-    std::string response = adapter.send(&req);
-	BlockCountResponse blockCountResponse(response);
+    std::cout << "BlockCountResponse" << std::endl;
+	BlockCountResponse blockCountResponse = adapter.getBlockCount();
     std::cout << blockCountResponse.toString() << std::endl;
 
-    std::cout << "BlockTemplateRequest" << std::endl;
+    std::cout << "BlockTemplateResponse" << std::endl;
     std::string response2 = adapter.send(&req2);
     std::cout << response2 << std::endl;
 
-    std::cout << "MiningInfoRequest" << std::endl;
-    std::string response3 = adapter.send(&req3);
-	MiningInfoResponse miningInfoResponse(response3);
+    std::cout << "MiningInfoResponse" << std::endl;
+   	MiningInfoResponse miningInfoResponse = adapter.getMiningInfo();
     std::cout << miningInfoResponse.toString() << std::endl;
 
-    std::cout << "SubmitBlockRequest" << std::endl;
-    std::string response4 = adapter.send(&req4);
-	SubmitBlockResponse submitBlockResponse(response4);
+    std::cout << "SubmitBlockResponse" << std::endl;
+	SubmitBlockResponse submitBlockResponse = adapter.submitBlock(blockData);
     std::cout << submitBlockResponse.toString() << std::endl;
     return 0;
 }
