@@ -15,7 +15,7 @@ add_executable(cpuMiningProject
     src/adapters/response/blockCount/blockCountResponse.cpp
     src/adapters/response/miningInfo/miningInfoResponse.cpp
     src/adapters/response/submitBlock/submitBlockResponse.cpp
-)
+ "src/adapters/response/blockTemplate/BlockTemplateResponse.h" "src/adapters/response/blockTemplate/Transaction.h" "src/adapters/response/blockTemplate/CoinBaseTxn.h" "src/adapters/response/blockTemplate/Transaction.cpp" "src/adapters/response/blockTemplate/CoinBaseTxn.cpp" "src/adapters/response/blockTemplate/BlockTemplateResponse.cpp")
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

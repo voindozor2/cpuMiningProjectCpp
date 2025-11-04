@@ -10,6 +10,7 @@
 #include "src/adapters/response/miningInfo/miningInfoResponse.h"
 #include "src/adapters/response/submitBlock/submitBlockResponse.h"
 #include "src/adapters/response/blockCount/blockCountResponse.h"
+#include "src/adapters/response/blockTemplate/BlockTemplateResponse.h"
 
 
 struct BlockchainInfo {
@@ -58,7 +59,7 @@ BlockchainInfo parse_blockchaininfo(const std::string& json_text) {
 }
 
 int main() {
-    bitcoinAdapter adapter("127.0.0.1", "18443", "bitcoinrpc", "MyStrongTestPassword123");
+    bitcoinAdapter adapter("127.0.0.1", "18332", "bitcoinrpc", "MyStrongTestPassword123");
     BlockCountRequest req;
     BlockTemplateRequest req2;
     MiningInfoRequest req3;
@@ -71,7 +72,8 @@ int main() {
 
     std::cout << "BlockTemplateResponse" << std::endl;
     std::string response2 = adapter.send(&req2);
-    std::cout << response2 << std::endl;
+	BlockTemplateResponse blockTemplateResponse(response2);
+    std::cout << blockTemplateResponse.toString() << std::endl;
 
     std::cout << "MiningInfoResponse" << std::endl;
    	MiningInfoResponse miningInfoResponse = adapter.getMiningInfo();
