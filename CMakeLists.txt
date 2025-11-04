@@ -3,9 +3,9 @@ set(CMAKE_TOOLCHAIN_FILE "C:/Users/Boris.DESKTOP-L651092/CLionProjects/vcpkg/scr
 
 project(cpuMiningProject)
 
-set(CMAKE_CXX_STANDARD 26)
-add_executable(cpuMiningProject 
-    main.cpp
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+add_executable(cpuMiningProject main.cpp
     src/abstractions/serializedToString.h
     src/adapters/bitcoinAdapter.cpp
     src/adapters/requests/blockCount/BlockCountRequest.cpp
@@ -15,7 +15,9 @@ add_executable(cpuMiningProject
     src/adapters/response/blockCount/blockCountResponse.cpp
     src/adapters/response/miningInfo/miningInfoResponse.cpp
     src/adapters/response/submitBlock/submitBlockResponse.cpp
- "src/adapters/response/blockTemplate/BlockTemplateResponse.h" "src/adapters/response/blockTemplate/Transaction.h" "src/adapters/response/blockTemplate/CoinBaseTxn.h" "src/adapters/response/blockTemplate/Transaction.cpp" "src/adapters/response/blockTemplate/CoinBaseTxn.cpp" "src/adapters/response/blockTemplate/BlockTemplateResponse.cpp")
+    src/adapters/response/blockTemplate/Transaction.cpp
+    src/adapters/response/blockTemplate/CoinBaseTxn.cpp
+    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp)
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
@@ -33,3 +35,25 @@ target_link_libraries(cpuMiningProject PRIVATE cpr::cpr)
 
 find_package(jsoncpp CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE jsoncpp_lib)
+
+find_package(Boost REQUIRED COMPONENTS algorithm)
+target_link_libraries(cpuMiningProject PRIVATE Boost::algorithm)
+
+# === Тесты ===
+include(CTest)                 # нужно для ctest/Test Explorer
+
+if(BUILD_TESTING)
+  find_package(GTest CONFIG REQUIRED)
+
+  add_executable(unit_tests
+      tests/test_main.cpp     # только тут кладём тестовый файл(ы)
+  )
+  target_link_libraries(unit_tests PRIVATE GTest::gtest GTest::gtest_main)
+
+  # чтобы VS Test Explorer видел и умел запускать/отлаживать поштучно
+  include(GoogleTest)
+  gtest_discover_tests(unit_tests
+      DISCOVERY_MODE PRE_TEST           # надёжная модель обнаружения
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}  # по желанию
+  )
+endif()

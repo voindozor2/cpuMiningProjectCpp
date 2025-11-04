@@ -12,6 +12,8 @@
 #include "src/adapters/response/blockCount/blockCountResponse.h"
 #include "src/adapters/response/blockTemplate/BlockTemplateResponse.h"
 
+#include <boost/algorithm/hex.hpp>
+
 
 struct BlockchainInfo {
     std::string chain;
@@ -59,7 +61,7 @@ BlockchainInfo parse_blockchaininfo(const std::string& json_text) {
 }
 
 int main() {
-    bitcoinAdapter adapter("127.0.0.1", "18332", "bitcoinrpc", "MyStrongTestPassword123");
+    bitcoinAdapter adapter("127.0.0.1", "18443", "bitcoinrpc", "MyStrongTestPassword123");
     BlockCountRequest req;
     BlockTemplateRequest req2;
     MiningInfoRequest req3;
@@ -82,7 +84,35 @@ int main() {
     std::cout << "SubmitBlockResponse" << std::endl;
 	SubmitBlockResponse submitBlockResponse = adapter.submitBlock(blockData);
     std::cout << submitBlockResponse.toString() << std::endl;
+
+    std::vector<uint8_t> bytes = { 0x12, 0x34, 0x56, 0x78, 0x9A };
+    std::string hex_str;
+
+    // Конвертация bytes -> hex
+    boost::algorithm::hex(bytes.begin(), bytes.end(), std::back_inserter(hex_str));
+    std::cout << "Hex string: " << hex_str << std::endl;
+
+    // Проверка на правильность
+    assert(hex_str == "123456789A");
+
+    // Пример 2: hex to bytes
+    std::vector<uint8_t> decoded_bytes;
+    boost::algorithm::unhex(hex_str.begin(), hex_str.end(), std::back_inserter(decoded_bytes));
+
+    // Проверка, что мы правильно вернули байты
+    assert(decoded_bytes == bytes);
+
+    // Дополнительная проверка, что на неправильный hex строку не распарсить
+    std::string invalid_hex = "ZZ"; // Некорректный символ
+    try {
+        std::vector<uint8_t> bad_bytes;
+        boost::algorithm::unhex(invalid_hex.begin(), invalid_hex.end(), std::back_inserter(bad_bytes));
+        assert(false && "Exception not thrown for invalid hex");
+    }
+    catch (...) {
+        std::cout << "Caught expected exception for invalid hex input." << std::endl;
+    }
+
+
     return 0;
 }
-
-
