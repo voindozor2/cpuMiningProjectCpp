@@ -17,7 +17,7 @@ add_executable(cpuMiningProject main.cpp
     src/adapters/response/submitBlock/submitBlockResponse.cpp
     src/adapters/response/blockTemplate/Transaction.cpp
     src/adapters/response/blockTemplate/CoinBaseTxn.cpp
-    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp)
+    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp "src/utils/VarInt.cpp")
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
@@ -47,7 +47,7 @@ if(BUILD_TESTING)
 
   add_executable(unit_tests
       tests/test_main.cpp     # только тут кладём тестовый файл(ы)
-  )
+   "src/utils/VarInt.cpp")
   target_link_libraries(unit_tests PRIVATE GTest::gtest GTest::gtest_main)
 
   # чтобы VS Test Explorer видел и умел запускать/отлаживать поштучно
