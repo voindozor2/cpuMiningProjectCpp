@@ -5,7 +5,7 @@
 #include <cstdint>
 #include "../../../abstractions/serializedToString.h"
 
-class Transaction : SerializedToString
+class Transaction : public SerializedToString
 {
 public:
 	std::string data;

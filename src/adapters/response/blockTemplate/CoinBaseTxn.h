@@ -5,7 +5,7 @@
 #include <cstdint>
 #include "../../../abstractions/serializedToString.h"
 
-class CoinBaseTxn : SerializedToString
+class CoinBaseTxn : public SerializedToString
 {
 public:
 	std::string data;

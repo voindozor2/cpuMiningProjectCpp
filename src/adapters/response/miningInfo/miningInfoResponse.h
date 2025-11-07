@@ -2,7 +2,7 @@
 #include <string>
 #include "../../../abstractions/serializedToString.h"
 
-class MiningInfoResponse : SerializedToString
+class MiningInfoResponse : public SerializedToString
 {
 public:
 	int blocks;

@@ -182,3 +182,52 @@ std::string BlockTemplateResponse::toString() const
     Json::StreamWriterBuilder writer;
 	return Json::writeString(writer, json);
 }
+
+BlockTemplateResponse::BlockTemplateResponse(
+    std::vector<std::string> capabilities,
+    std::vector<std::string> rules,
+    std::vector<std::string> mutableFields,
+    std::vector<Transaction> transactions,
+    std::map<std::string, uint8_t> vbavailable,
+    std::map<std::string, std::string> coinbaseaux,
+    std::string previousblockhash,
+    std::optional<uint64_t> coinbasevalue,
+    std::string longpollid,
+    std::string target,
+    int64_t mintime,
+    std::string noncerange,
+    uint64_t sigoplimit,
+    uint64_t sizelimit,
+    uint64_t weightlimit,
+    int64_t curtime,
+    std::string bits,
+    uint32_t height,
+    std::optional<std::string> defaultWitnessCommitment,
+    int32_t version,
+    uint32_t vbrequired,
+    std::optional<CoinBaseTxn> coinbasetxn
+) 
+{
+    this->capabilities = capabilities;
+    this->rules = rules;
+    this->mutableFields = mutableFields;
+    this->transactions = transactions;
+    this->vbavailable = vbavailable;
+    this->coinbaseaux = coinbaseaux;
+    this->previousblockhash = previousblockhash;
+    this->coinbasevalue = coinbasevalue;
+    this->longpollid = longpollid;
+    this->target = target;
+    this->mintime = mintime;
+    this->noncerange = noncerange;
+    this->sigoplimit = sigoplimit;
+    this->sizelimit = sizelimit;
+    this->weightlimit = weightlimit;
+    this->curtime = curtime;
+    this->bits = bits;
+    this->height = height;
+    this->defaultWitnessCommitment = defaultWitnessCommitment;
+    this->version = version;
+    this->vbrequired = vbrequired;
+	this->coinbasetxn = coinbasetxn;
+}

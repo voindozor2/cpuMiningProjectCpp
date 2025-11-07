@@ -2,7 +2,7 @@
 #include <string>
 #include "../../../abstractions/serializedToString.h"
 
-class SubmitBlockResponse : SerializedToString
+class SubmitBlockResponse : public SerializedToString
 {
 public:
 	std::string result;

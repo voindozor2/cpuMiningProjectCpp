@@ -17,7 +17,11 @@ add_executable(cpuMiningProject main.cpp
     src/adapters/response/submitBlock/submitBlockResponse.cpp
     src/adapters/response/blockTemplate/Transaction.cpp
     src/adapters/response/blockTemplate/CoinBaseTxn.cpp
-    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp "src/utils/VarInt.cpp")
+    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp 
+    src/utils/VarInt.cpp
+    src/core/BitcoinMainFunctions.h
+    src/core/BitcoinMainFunctions.cpp)
+
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 
@@ -46,9 +50,31 @@ if(BUILD_TESTING)
   find_package(GTest CONFIG REQUIRED)
 
   add_executable(unit_tests
-      tests/test_main.cpp     # только тут кладём тестовый файл(ы)
-   "src/utils/VarInt.cpp")
+    tests/test_main.cpp     # только тут кладём тестовый файл(ы)
+    src/abstractions/serializedToString.h
+    src/adapters/bitcoinAdapter.cpp
+    src/adapters/requests/blockCount/BlockCountRequest.cpp
+    src/adapters/requests/miningInfo/MiningInfoRequest.cpp
+    src/adapters/requests/blockTemplate/BlockTemplateRequest.cpp
+    src/adapters/requests/submitBlock/SubmitBlockRequest.cpp
+    src/adapters/response/blockCount/blockCountResponse.cpp
+    src/adapters/response/miningInfo/miningInfoResponse.cpp
+    src/adapters/response/submitBlock/submitBlockResponse.cpp
+    src/adapters/response/blockTemplate/Transaction.cpp
+    src/adapters/response/blockTemplate/CoinBaseTxn.cpp
+    src/adapters/response/blockTemplate/BlockTemplateResponse.cpp 
+    src/utils/VarInt.cpp
+    src/core/BitcoinMainFunctions.h
+    src/core/BitcoinMainFunctions.cpp
+  )
   target_link_libraries(unit_tests PRIVATE GTest::gtest GTest::gtest_main)
+  target_link_libraries(unit_tests PRIVATE Boost::optional)
+  target_link_libraries(unit_tests PRIVATE Boost::endian)
+  target_link_libraries(unit_tests PRIVATE cpr::cpr)
+  target_link_libraries(unit_tests PRIVATE jsoncpp_lib)
+  target_link_libraries(unit_tests PRIVATE Boost::algorithm)
+  target_link_libraries(unit_tests PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
+  target_link_libraries(unit_tests PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
 
   # чтобы VS Test Explorer видел и умел запускать/отлаживать поштучно
   include(GoogleTest)

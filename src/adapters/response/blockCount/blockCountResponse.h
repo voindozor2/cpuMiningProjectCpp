@@ -2,7 +2,7 @@
 #include <string>
 #include "../../../abstractions/serializedToString.h"
 
-class BlockCountResponse : SerializedToString
+class BlockCountResponse : public SerializedToString
 {
 public:
 	int count;
