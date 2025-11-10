@@ -11,6 +11,8 @@
 #include "src/adapters/response/submitBlock/submitBlockResponse.h"
 #include "src/adapters/response/blockCount/blockCountResponse.h"
 #include "src/adapters/response/blockTemplate/BlockTemplateResponse.h"
+#include "src/adapters/response/listunspent/ListUnspentResponse.h"
+#include "src/adapters/requests/listunspent/ListUnspentRequest.h"
 
 #include <boost/algorithm/hex.hpp>
 
@@ -84,6 +86,10 @@ int main() {
     std::cout << "SubmitBlockResponse" << std::endl;
 	SubmitBlockResponse submitBlockResponse = adapter.submitBlock(blockData);
     std::cout << submitBlockResponse.toString() << std::endl;
+    
+    std::cout << "ListUnspentResponse" << std::endl;
+    ListUnspentResponse listUnspentResponse = adapter.listUnspent();
+    std::cout << listUnspentResponse.toString() << std::endl;
 
     std::vector<uint8_t> bytes = { 0x12, 0x34, 0x56, 0x78, 0x9A };
     std::string hex_str;

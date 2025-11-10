@@ -20,7 +20,12 @@ add_executable(cpuMiningProject main.cpp
     src/adapters/response/blockTemplate/BlockTemplateResponse.cpp 
     src/utils/VarInt.cpp
     src/core/BitcoinMainFunctions.h
-    src/core/BitcoinMainFunctions.cpp)
+    src/core/BitcoinMainFunctions.cpp 
+    src/adapters/requests/listunspent/ListUnspentRequest.cpp
+    src/adapters/requests/listunspent/ListUnspentRequest.h
+    src/adapters/response/listunspent/ListUnspentResponse.h
+    src/adapters/response/listunspent/ListUnspentResponse.cpp
+)
 
 find_package(protobuf CONFIG REQUIRED)
 target_link_libraries(cpuMiningProject PRIVATE protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
@@ -66,6 +71,10 @@ if(BUILD_TESTING)
     src/utils/VarInt.cpp
     src/core/BitcoinMainFunctions.h
     src/core/BitcoinMainFunctions.cpp
+    src/adapters/requests/listunspent/ListUnspentRequest.cpp
+    src/adapters/requests/listunspent/ListUnspentRequest.h
+    src/adapters/response/listunspent/ListUnspentResponse.h
+    src/adapters/response/listunspent/ListUnspentResponse.cpp
   )
   target_link_libraries(unit_tests PRIVATE GTest::gtest GTest::gtest_main)
   target_link_libraries(unit_tests PRIVATE Boost::optional)

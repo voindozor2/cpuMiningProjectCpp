@@ -6,6 +6,7 @@
 #include "response/blockCount/blockCountResponse.h"
 #include "response/miningInfo/miningInfoResponse.h"
 #include "response/submitBlock/submitBlockResponse.h"
+#include "response/listunspent/ListUnspentResponse.h"
 
 class bitcoinAdapter {
 private:
@@ -21,4 +22,5 @@ public:
     BlockCountResponse getBlockCount();
 	MiningInfoResponse getMiningInfo();
 	SubmitBlockResponse submitBlock(const std::string blockData);
+	ListUnspentResponse listUnspent();
 };

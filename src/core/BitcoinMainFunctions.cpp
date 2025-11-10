@@ -66,10 +66,15 @@ uint64_t BitcoinMainFunctions::calcSubsidy(uint32_t height) {
 
 std::vector<std::byte> BitcoinMainFunctions::uint64ToBytes(uint64_t value) {
 	std::vector<std::byte> bytes(8);
-	for (size_t i = 0; i < 8; ++i) {
-		int shift = (7 - i) * 8;
-		bytes[i] = static_cast<std::byte>((value >> shift) & 0xFF);
-	}
+
+	bytes[0] = static_cast<std::byte>(value >> 8*7 & 0xFF);
+	bytes[1] = static_cast<std::byte>(value >> 8*6 & 0xFF);
+	bytes[2] = static_cast<std::byte>(value >> 8*5 & 0xFF);
+	bytes[3] = static_cast<std::byte>(value >> 8*4 & 0xFF);
+	bytes[4] = static_cast<std::byte>(value >> 8*3 & 0xFF);
+	bytes[5] = static_cast<std::byte>(value >> 8*2 & 0xFF);
+	bytes[6] = static_cast<std::byte>(value >> 8*1 & 0xFF);
+	bytes[7] = static_cast<std::byte>(value >> 8*0 & 0xFF);
 	return bytes;
 }
 

@@ -13,6 +13,9 @@
 #include "requests/blockCount/blockCountRequest.h"
 #include "requests/miningInfo/miningInfoRequest.h"
 #include "requests/submitBlock/submitBlockRequest.h"
+#include "response/listunspent/ListUnspentResponse.h"
+#include "requests/listunspent/ListUnspentRequest.h"
+
 
 bitcoinAdapter::bitcoinAdapter()
 {
@@ -56,4 +59,10 @@ SubmitBlockResponse bitcoinAdapter::submitBlock(const std::string blockData)
 {
 	SubmitBlockRequest submitBlockRequest(blockData);
     return SubmitBlockResponse(send(&submitBlockRequest));
+}
+
+ListUnspentResponse bitcoinAdapter::listUnspent()
+{
+	ListUnspent listUnspentRequest;
+    return ListUnspentResponse(send(&listUnspentRequest));
 }
