@@ -10,6 +10,7 @@
 #include "../src/core/BitcoinMainFunctions.h"
 #include "../src/adapters/response/blockTemplate/BlockTemplateResponse.h"
 #include "../src/adapters/response/blockTemplate/transaction.h"
+#include "../src/adapters/response/listunspent/ListUnspentResponse.h"
 
 // bytes -> hex (lowercase), סמגלוסעטלמ ט ס std::byte, ט ס uint8_t
 template <class ByteContainer>
@@ -460,5 +461,43 @@ TEST(Calculation_vout, K11) {
     for (int i = 0; i < 5; ++i) EXPECT_EQ(vout[9 + i], expected_script[i]);
 
     EXPECT_EQ(hex_lower(vout), "00329a7ca40300000576a91488ac");
+}
+
+TEST(Calculation_vin, K1) {
+    UnspentTx unspentTx;
+	unspentTx.txid = "56ea65ddecf6d415921aca0cd3efffe76c46809e1db788717fd8bc5310b014d7";
+	unspentTx.vout = 0;
+	unspentTx.address = "bcrt1q5rleqv5jpuey3k3632txjpqljuhmapgl6yu45a";
+	unspentTx.scriptPubKey = "0014a0ff9032920f3248da3a8a9669041f972fbe851f";
+	unspentTx.amount = 50.00000000;
+	unspentTx.confirmations = 101;
+	unspentTx.spendable = true;
+	unspentTx.solvable = true;
+    unspentTx.desc = "wpkh([489fcc24/84h/1h/0h/0/0]034e7ed36371468684f6eead95ec3ba664cdc9b73e01af91647bcb3fdea4a428f4)#cjy3ftvv";
+    std::vector<std::string> parent_descs_vector;
+	parent_descs_vector.push_back("wpkh(tpubD6NzVbkrYhZ4WRUi21Xaruq7edKmRfxSPvmC8kkFRV67ZQq1ZzSPJSDVDoBASiz6ZwpPGcut8cvgC4uJMG2UpEywfhdbv4WVAmrFtqCYUEa/84h/1h/0h/0/*)#jhewu85k");
+    unspentTx.parent_descs = parent_descs_vector;
+    unspentTx.safe = true;
+
+	std::vector<std::byte> vin = BitcoinMainFunctions::calcUnsignedVin(unspentTx);
+    std::cout << "HEX    " <<  hex_lower(vin) << std::endl;
+    const std::vector<std::byte> expected = {
+    std::byte{0xd7}, std::byte{0x14}, std::byte{0xb0}, std::byte{0x10},
+    std::byte{0x53}, std::byte{0xbc}, std::byte{0xd8}, std::byte{0x7f},
+    std::byte{0x71}, std::byte{0x88}, std::byte{0xb7}, std::byte{0x1d},
+    std::byte{0x9e}, std::byte{0x80}, std::byte{0x46}, std::byte{0x6c},
+    std::byte{0xe7}, std::byte{0xff}, std::byte{0xef}, std::byte{0xd3},
+    std::byte{0x0c}, std::byte{0xca}, std::byte{0x1a}, std::byte{0x92},
+    std::byte{0x15}, std::byte{0xd4}, std::byte{0xf6}, std::byte{0xec},
+    std::byte{0xdd}, std::byte{0x65}, std::byte{0xea}, std::byte{0x56},
+    std::byte{0x00}, std::byte{0x00}, std::byte{0x00}, std::byte{0x00},
+    std::byte{0x00}, std::byte{0xff}, std::byte{0xff}, std::byte{0xff},
+    std::byte{0xff}
+    };
+
+	std::string vinHex = hex_lower(vin);
+    std::string expectedHex = "d714b01053bcd87f7188b71d9e80466ce7ffefd30cca1a9215d4f6ecdd65ea560000000000ffffffff";
+    EXPECT_EQ(vin, expected);
+    EXPECT_EQ(vinHex, expectedHex);
 }
 

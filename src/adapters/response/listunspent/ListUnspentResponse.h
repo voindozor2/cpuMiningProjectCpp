@@ -5,7 +5,7 @@
 
 struct UnspentTx {
 	std::string txid;
-	uint64_t vout;
+	uint32_t vout;
 	std::string address;
 	std::string scriptPubKey;
 	double amount;

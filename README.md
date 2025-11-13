@@ -539,6 +539,7 @@ ff ff ff ff
   `72e50f34a7a71aacf1af6d7de58a37f64b0f4b854ad304a10f4640dc6bdb4895`
 
 ---
+## День 15.1 — ПОДПИСАТЬ ТРАНЗАКЦИЮ СВОЮ RAW
 
 ## День 15 — `nBits → target` и сравнение с `block_hash` (PoW-порог)
 
